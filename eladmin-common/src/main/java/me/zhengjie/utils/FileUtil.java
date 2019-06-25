@@ -100,7 +100,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
      * @param size
      * @return
      */
-    public static String getSize(int size){
+    public static String getSize(long size){
         String resultSize = "";
         if (size / GB >= 1) {
             //如果当前Byte的值大于等于1GB

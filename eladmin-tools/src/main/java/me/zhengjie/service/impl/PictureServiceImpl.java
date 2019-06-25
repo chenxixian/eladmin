@@ -51,17 +51,17 @@ public class PictureServiceImpl implements PictureService {
 
         HashMap<String, Object> paramMap = new HashMap<>();
 
-        paramMap.put("smfile", file);
+        paramMap.put("file", file);
         String result= HttpUtil.post(ElAdminConstant.Url.SM_MS_URL, paramMap);
 
         JSONObject jsonObject = JSONUtil.parseObj(result);
         Picture picture = null;
-        if(!jsonObject.get(CODE).toString().equals(SUCCESS)){
+        if(!jsonObject.get(CODE).equals(200)){
             throw new BadRequestException(jsonObject.get(MSG).toString());
         }
         //转成实体类
-        picture = JSON.parseObject(jsonObject.get("data").toString(), Picture.class);
-        picture.setSize(FileUtil.getSize(Integer.valueOf(picture.getSize())));
+        picture = JSON.parseObject(jsonObject.toString(), Picture.class);
+        picture.setSize(FileUtil.getSize(file.length()));
         picture.setUsername(username);
         picture.setFilename(FileUtil.getFileNameNoEx(multipartFile.getOriginalFilename())+"."+FileUtil.getExtensionName(multipartFile.getOriginalFilename()));
         pictureRepository.save(picture);
